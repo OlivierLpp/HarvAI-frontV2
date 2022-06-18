@@ -1,14 +1,15 @@
 
+from collections import UserString
 from flask import Flask, render_template, request
-
+import requests
 
 app = Flask(__name__)
 app.static_folder = 'static'
 
 
 def chatbot_response(msg):
-    res = "Salut !"
-    return res
+    output = requests.get("http://127.0.0.1:8000/answer", params={'question': msg, 'retriever' : 'Embedding', 'article_number' : 2})
+    return output.json()['answer']
 
 
 @app.route("/")
